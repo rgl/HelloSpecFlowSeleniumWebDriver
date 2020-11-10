@@ -47,3 +47,9 @@ You can modify the Web Driver behavior using the following environment variables
 | `BROWSER_DRIVER_HEADLESS` | `1` | Run the browser in headless mode |
 | `BROWSER_DRIVER_LOG_PATH` | `chromedriver.log` | Path where the web driver logs will be saved |
 | `CALCULATOR_SERVICE_PATH` | `C:\calculator-example-html.exe` | Path for the [calculator-example-html](https://github.com/rgl/calculator-example-html) binary |
+
+## Alternatives
+
+* [cypress](https://www.cypress.io/)
+* [Playwright](https://playwright.dev/)
+* [Puppeteer](https://pptr.dev/)
