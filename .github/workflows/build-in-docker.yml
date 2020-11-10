@@ -1,0 +1,15 @@
+name: Build in Docker
+on: [push]
+jobs:
+  build:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: .\run.ps1
+      - name: Archive Test Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test Results
+          path: |
+            TestResults/

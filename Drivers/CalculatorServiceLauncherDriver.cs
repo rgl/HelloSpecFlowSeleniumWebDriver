@@ -33,19 +33,25 @@ namespace HelloSpecFlowSeleniumWebDriver.Drivers
 
             // TODO add support for linux using https://www.nuget.org/packages/SharpZipLib/ to extract the tarball.
 
-            var version = "1.0.0";
-            var url = $"https://github.com/rgl/calculator-example-html/releases/download/v{version}/calculator-example-html_{version}_windows_amd64.zip";
-            var processPath = Path.Combine(Path.GetTempPath(), $"CalculatorServiceLauncherDriver/calculator-example-html-v{version}.exe");
+            var processPath = Environment.GetEnvironmentVariable("CALCULATOR_SERVICE_PATH");
 
-            if (!File.Exists(processPath))
+            if (processPath == null)
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(processPath));
+                // NB if you change this, also change it in the Dockerfile.
+                var version = "1.0.0";
+                var url = $"https://github.com/rgl/calculator-example-html/releases/download/v{version}/calculator-example-html_{version}_windows_amd64.zip";
+                processPath = Path.Combine(Path.GetTempPath(), $"CalculatorServiceLauncherDriver/calculator-example-html-v{version}.exe");
 
-                using var webClient = new WebClient();
-                var zipData = webClient.DownloadData(url);
-                var zipArchive = new ZipArchive(new MemoryStream(zipData), ZipArchiveMode.Read);
-                var processEntry = zipArchive.GetEntry("calculator-example-html.exe");
-                processEntry.ExtractToFile(processPath);
+                if (!File.Exists(processPath))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(processPath));
+
+                    using var webClient = new WebClient();
+                    var zipData = webClient.DownloadData(url);
+                    var zipArchive = new ZipArchive(new MemoryStream(zipData), ZipArchiveMode.Read);
+                    var processEntry = zipArchive.GetEntry("calculator-example-html.exe");
+                    processEntry.ExtractToFile(processPath);
+                }
             }
 
             _commandWrapper = new CommandWrapper();

@@ -46,3 +46,4 @@ You can modify the Web Driver behavior using the following environment variables
 | `BROWSER_DRIVER_WINDOW_CLIENT_SIZE` | `800x600` | The browser client area size; this overrides the value of `BROWSER_DRIVER_WINDOW_SIZE` |
 | `BROWSER_DRIVER_HEADLESS` | `1` | Run the browser in headless mode |
 | `BROWSER_DRIVER_LOG_PATH` | `chromedriver.log` | Path where the web driver logs will be saved |
+| `CALCULATOR_SERVICE_PATH` | `C:\calculator-example-html.exe` | Path for the [calculator-example-html](https://github.com/rgl/calculator-example-html) binary |
