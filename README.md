@@ -4,6 +4,8 @@
 
 Example C# SpecFlow (and Selenium) Web UI tests (using [calculator-example-html](https://github.com/rgl/calculator-example-html)).
 
+Also see the [rgl/HelloSeleniumWebDriver](https://github.com/rgl/HelloSeleniumWebDriver) repository.
+
 ## Usage
 
 List the available tests:
