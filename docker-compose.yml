@@ -1,0 +1,33 @@
+# see https://docs.docker.com/compose/overview/
+# see https://docs.docker.com/compose/compose-file/
+# see https://github.com/opencontainers/image-spec/blob/master/annotations.md
+version: '3.8'
+services:
+  tests:
+    build:
+      context: .
+      labels: &labels
+        org.opencontainers.image.source: "${LABEL_IMAGE_SOURCE}"
+        org.opencontainers.image.description: "${LABEL_IMAGE_DESCRIPTION}"
+        org.opencontainers.image.revision: "${LABEL_IMAGE_REVISION}"
+    depends_on:
+      - chrome
+    environment:
+      BROWSER_DRIVER_URL: http://chrome:9515
+    volumes:
+      - ./TestResults:c:/build/TestResults
+      - ./tmp:c:/host
+    labels:
+      *labels
+  chrome:
+    build:
+      context: chrome
+      labels:
+        *labels
+    command:
+      - --verbose
+      - --log-path=c:/host/chromedriver.log
+    volumes:
+      - ./tmp:c:/host
+    labels:
+      *labels

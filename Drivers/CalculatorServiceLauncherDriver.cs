@@ -24,11 +24,18 @@ namespace HelloSpecFlowSeleniumWebDriver.Drivers
             }
         }
 
-        public string Start(string address)
+        public string Start()
         {
             if (_commandWrapper != null)
             {
                 return _address;
+            }
+
+            var address = Environment.GetEnvironmentVariable("CALCULATOR_SERVICE_LISTEN_ADDRESS") ?? "localhost:0";
+
+            if (address.StartsWith("*:"))
+            {
+                address = $"{Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]}:{address.Split(':', 2)[1]}";
             }
 
             // TODO add support for linux using https://www.nuget.org/packages/SharpZipLib/ to extract the tarball.

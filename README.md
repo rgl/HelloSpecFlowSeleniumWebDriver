@@ -48,7 +48,9 @@ You can modify the Web Driver behavior using the following environment variables
 | `BROWSER_DRIVER_WINDOW_CLIENT_SIZE` | `800x600` | The browser client area size; this overrides the value of `BROWSER_DRIVER_WINDOW_SIZE` |
 | `BROWSER_DRIVER_HEADLESS` | `1` | Run the browser in headless mode |
 | `BROWSER_DRIVER_LOG_PATH` | `chromedriver.log` | Path where the web driver logs will be saved |
+| `BROWSER_DRIVER_URL` | `http://chrome:9515` | Remote chromedriver url. When set, chromedriver will not be started locally, instead, it will be used remotely. |
 | `CALCULATOR_SERVICE_PATH` | `C:\calculator-example-html.exe` | Path for the [calculator-example-html](https://github.com/rgl/calculator-example-html) binary |
+| `CALCULATOR_SERVICE_LISTEN_ADDRESS` | `localhost:0` | The address where the calculator service will listen on. Use the `*` host to listen in the hostname IP address. Use the `0` port to choose a random listening port. |
 
 ## Alternatives
 

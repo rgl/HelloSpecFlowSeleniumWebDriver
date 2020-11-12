@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -27,6 +28,7 @@ namespace HelloSpecFlowSeleniumWebDriver.Drivers
             var windowClientSizeOption = Environment.GetEnvironmentVariable("BROWSER_DRIVER_WINDOW_CLIENT_SIZE");
             var headlessOption = Environment.GetEnvironmentVariable("BROWSER_DRIVER_HEADLESS");
             var logPathOption = Environment.GetEnvironmentVariable("BROWSER_DRIVER_LOG_PATH");
+            var driverUrl = Environment.GetEnvironmentVariable("BROWSER_DRIVER_URL");
 
             var windowSize = ParseSize(string.IsNullOrEmpty(windowClientSizeOption) ? windowSizeOption : windowClientSizeOption);
             var windowClientSize = ParseSize(windowClientSizeOption);
@@ -55,11 +57,24 @@ namespace HelloSpecFlowSeleniumWebDriver.Drivers
                 chromeOptions.AddArguments("--disable-gpu");
             }
 
-            var service = ChromeDriverService.CreateDefaultService();
-            service.LogPath = logPath;
-            service.EnableVerboseLogging = true;
+            RemoteWebDriver wd;
 
-            var wd = new ChromeDriver(service, chromeOptions);
+            if (string.IsNullOrEmpty(driverUrl))
+            {
+                Console.WriteLine("Using local chrome web-driver...");
+
+                var service = ChromeDriverService.CreateDefaultService();
+                service.LogPath = logPath;
+                service.EnableVerboseLogging = true;
+
+                wd = new ChromeDriver(service, chromeOptions);
+            }
+            else
+            {
+                Console.WriteLine($"Using remote chrome web-driver at {driverUrl}...");
+
+                wd = new RemoteWebDriver(new Uri(driverUrl), chromeOptions);
+            }
 
             // move the window to the top-left corner.
             wd.Manage().Window.Position = new Point(0, 0);

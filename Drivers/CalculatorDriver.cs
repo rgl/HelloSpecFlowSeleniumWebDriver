@@ -25,7 +25,7 @@ namespace HelloSpecFlowSeleniumWebDriver.Drivers
 
         public void Clear()
         {
-            var address = _calculatorServiceLauncherDriver.Start("localhost:0");
+            var address = _calculatorServiceLauncherDriver.Start();
 
             _webDriverDriver.WebDriver.Navigate().GoToUrl($"http://{address}");
         }
