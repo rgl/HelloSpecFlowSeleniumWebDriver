@@ -3,7 +3,9 @@ using CliWrap.EventStream;
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,7 +37,9 @@ namespace HelloSpecFlowSeleniumWebDriver.Drivers
 
             if (address.StartsWith("*:"))
             {
-                address = $"{Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]}:{address.Split(':', 2)[1]}";
+                var hostIpAddress = Dns.GetHostEntry(Dns.GetHostName()).AddressList.Where(a => a.AddressFamily == AddressFamily.InterNetwork).First();
+
+                address = $"{hostIpAddress}:{address.Split(':', 2)[1]}";
             }
 
             // TODO add support for linux using https://www.nuget.org/packages/SharpZipLib/ to extract the tarball.
@@ -96,6 +100,7 @@ namespace HelloSpecFlowSeleniumWebDriver.Drivers
                             case StartedCommandEvent startedEvent:
                                 break;
                             case StandardOutputCommandEvent stdOutEvent:
+                                Console.WriteLine($"Calculator: {stdOutEvent.Text}");
                                 if (!isActualListenAddressSet)
                                 {
                                     var match = listenAddressRegex.Match(stdOutEvent.Text);
@@ -108,6 +113,7 @@ namespace HelloSpecFlowSeleniumWebDriver.Drivers
                                 }
                                 break;
                             case StandardErrorCommandEvent stdErrEvent:
+                                Console.WriteLine($"Calculator Error: {stdErrEvent.Text}");
                                 break;
                             case ExitedCommandEvent exitedEvent:
                                 return;
@@ -116,6 +122,11 @@ namespace HelloSpecFlowSeleniumWebDriver.Drivers
                 });
 
                 actualAddressLock.WaitOne();
+
+                if (string.IsNullOrEmpty(actualAddress))
+                {
+                    throw new Exception("Failed to start Calculator");
+                }
 
                 return actualAddress;
             }
