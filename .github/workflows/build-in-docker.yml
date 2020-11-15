@@ -5,6 +5,14 @@ jobs:
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
+      # - name: Break Glass
+      #   run: .\break-glass.ps1
+      #   env:
+      #     RUNNER_PASSWORD: ${{ secrets.RUNNER_PASSWORD }}
+      #     FRPS_DOMAIN: ${{ secrets.FRPS_DOMAIN }}
+      #     FRPC_TLS_KEY: ${{ secrets.FRPC_TLS_KEY }}
+      #     FRPC_TLS_CERTIFICATE: ${{ secrets.FRPC_TLS_CERTIFICATE }}
+      #     FRPC_TLS_CA_CERTIFICATE: ${{ secrets.FRPC_TLS_CA_CERTIFICATE }}
       - name: Build
         run: .\run.ps1
       - name: Archive Test Results
